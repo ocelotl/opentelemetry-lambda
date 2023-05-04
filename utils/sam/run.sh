@@ -96,13 +96,13 @@ main() {
 
 		echo "run.sh: Starting sam build."
 		sam build -u -t "$template"
-		zip -qr $layerName.zip .aws-sam/build
+		zip -qr "$layerName".zip .aws-sam/build
 	fi
 
 	if [[ $deploy == true ]]; then
 		sam deploy --stack-name "$stack" --region "$region" --capabilities CAPABILITY_NAMED_IAM --resolve-s3 --parameter-overrides LayerName="$layerName"
 		rm -rf otel/otel_collector
-		rm $layerName.zip
+		rm "$layerName".zip
 	fi
 
 	if [[ $layer == true ]]; then
@@ -110,8 +110,6 @@ main() {
 		arn=$(aws lambda list-layer-versions --layer-name "$layerName" --region "$region" --query 'max_by(LayerVersions, &Version).LayerVersionArn')
 		echo "${arn//\"/}"
 	fi
-
-	# rm -rf .aws-sam
 }
 
 main "$@"

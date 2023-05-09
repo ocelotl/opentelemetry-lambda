@@ -2,9 +2,8 @@ name: "Release Python Lambda Layer"
 
 on:
   # (Using tag push instead of release to allow filtering by tag prefix.)
-  push:
-    tags:
-      - layer-python/**
+  pull-request:
+    branches: [ main ]
 
 permissions:
   id-token: write

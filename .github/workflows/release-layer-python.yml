@@ -1,6 +1,7 @@
 name: "Release Python Lambda Layer"
 
 on:
+  workflow_dispatch:
   # (Using tag push instead of release to allow filtering by tag prefix.)
   push:
     tags:
@@ -26,6 +27,7 @@ jobs:
         run: |
           cd python/src
           PYTHON_SDK_VERSION=$(./build.sh 2>&1 > /dev/null | sed -n "s/opentelemetry-sdk==\(.*\)/\1/p")
+          echo $PYTHON_SDK_VERSION
         shell: bash
 
       - name: Show directory contents
